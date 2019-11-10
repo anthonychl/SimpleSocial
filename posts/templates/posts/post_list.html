@@ -1,0 +1,74 @@
+{% extends 'posts/post_base.html' %}
+
+{% block pre_post %}
+    <div class="col-md-4">
+        {% if request.user.is_authenticated %}
+            <div class="container">
+                <div class="content">
+                    <h2 class="title">All Your Posts,</h2>
+                    <h4>and Groups You're a Member of</h4>
+                    <hr style="border-color: white;">
+                    <ul>
+                        {% for member_group in user.user_groups.all %} <!-- we can use the related_name = user_groups, to access the GroupMember class > -->
+                            <li>
+                                <h4 class="rgba-black-strong text-center">
+                                <a href="{% url 'groups:single' slug=member_group.group.slug %}">
+                                        {{ member_group.group.name }}
+                                </a>
+                                </h4>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+        
+    </div>
+{% endblock %}
+
+{% block post_content %}
+<div class="col-md-8 list-group">
+    {% for post in post_list %}
+        <div class="list-group-item rgba-black-strong">
+                {% include "posts/_post.html" %}
+        </div>
+	{% endfor %}
+</div>
+{% endblock %}
+
+{% block post_post %}
+<div class="container">
+        <br>
+{% if is_paginated %}
+    <nav class="d-flex justify-content-center wow fadeIn">
+      <ul class="pagination pg-blue justify-content-center">
+
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+          </a>
+        </li>
+        {% endif %}
+
+        <li class="page-item active">
+          <a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock%}
+

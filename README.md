@@ -22,9 +22,6 @@ Groups2
 Group
 ![Group](simplesocial-md-img/simple-group.png)
 
-Groups
-![Groups](simplesocial-md-img/simple-groups.png)
-
 New Group
 ![NewGroup](simplesocial-md-img/simple-newgroup.png)
 
